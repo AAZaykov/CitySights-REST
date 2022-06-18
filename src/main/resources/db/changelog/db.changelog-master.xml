@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
+
+    <changeSet id="1" author="AAZaykov">
+
+        <createTable tableName="cities" remarks="города">
+            <column name="id"  type="bigint" autoIncrement="true" remarks="id города">
+                <constraints primaryKey="true" primaryKeyName="city_id"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="название города">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="population" type="bigint" remarks="население города">
+                <constraints nullable="false"/>
+            </column>
+            <column name="metro" type="boolean" remarks="наличие метро в городе">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(100)" remarks="страна нахождения города">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2" author="AAZaykov">
+
+        <createTable tableName="sights" remarks="достопримечательности">
+            <column name="id"  type="bigint" autoIncrement="true" remarks="id достопримечательности">
+                <constraints primaryKey="true" primaryKeyName="sight_id_pk"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="название достопримечательности">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="date" type="date" remarks="дата постройки">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)" remarks="краткое описание">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(20)" remarks="тип достопримечательности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="bigint" remarks="id города расположения"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="sights" baseColumnNames="city" constraintName="fk_cityId" referencedTableName="cities"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="3" author="AAZaykov">
+
+        <insert tableName="cities">
+            <column name="name" value="Москва"/>
+            <column name="population" value="12635466"/>
+            <column name="metro" value="true"/>
+            <column name="country" value="Россия"/>
+        </insert>
+
+        <insert tableName="cities">
+            <column name="name" value="Санкт-Петербург"/>
+            <column name="population" value="5377503"/>
+            <column name="metro" value="true"/>
+            <column name="country" value="Россия"/>
+        </insert>
+
+        <insert tableName="cities">
+            <column name="name" value="Екатеринбург"/>
+            <column name="population" value="1493600"/>
+            <column name="metro" value="true"/>
+            <column name="country" value="Россия"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="4" author="AAZaykov">
+
+        <insert tableName="sights">
+            <column name="name" value="Большой театр"/>
+            <column name="date" value="28-03-1776"/>
+            <column name="description" value="Один из крупнейших в России и один из самых значительных в мире театров оперы и балета"/>
+            <column name="type" value="BUILDING"/>
+            <column name="city" value="1"/>
+        </insert>
+
+        <insert tableName="sights">
+            <column name="name" value="Останкинская телебашня"/>
+            <column name="date" value="07-11-1967"/>
+            <column name="description" value="Телевизионная и радиовещательная башня, расположенная в Останкинском районе Москвы. По состоянию на весну 2022 года, телебашня — 15-е по высоте сооружение из когда-либо существовавших, а также высочайшее сооружение в Европе и в России"/>
+            <column name="type" value="CONSTRUCTION"/>
+            <column name="city" value="1"/>
+        </insert>
+
+        <insert tableName="sights">
+            <column name="name" value="Эрмитаж"/>
+            <column name="date" value="07-12-1764"/>
+            <column name="description" value="Музей изобразительного и декоративно-прикладного искусства, расположенный в городе Санкт-Петербурге Российской Федерации. Является одним из крупнейших художественных музеев в мире"/>
+            <column name="type" value="MUSEUM"/>
+            <column name="city" value="2"/>
+        </insert>
+
+        <insert tableName="sights">
+            <column name="name" value="Водонапорная башня в Историческом сквере"/>
+            <column name="date" value="01-01-1890"/>
+            <column name="description" value="Архитектурный памятник федерального значения. Построена для нужд Железнодорожных мастерских. С 1947 по 1960-е гг. башня фактически была двухквартирным жилым домом. С 1995 года филиал Музея истории Екатеринбурга"/>
+            <column name="type" value="MONUMENT"/>
+            <column name="city" value="3"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
